@@ -1,0 +1,36 @@
+volumes:
+  db-store:
+  web:
+  web_bundle:
+  web_node_modules:
+services:
+  web:
+    build: .
+    container_name: web
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/webapp
+      - web_bundle:/usr/local/bundle
+      - web_node_modules:/webapp/node_modules
+    ports:
+      - "3000:3000"
+    init: true
+    healthcheck:
+      test: curl -f http://localhost:3000/up
+  db:
+    image: mysql:8.0
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./logs:/var/log/mysql
+    container_name: db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - TZ=Asia/Tokyo
+    ports:
+      - 3306:3306
+    init: true
+    command: --sql-mode=''
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD
