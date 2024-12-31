@@ -64,6 +64,9 @@ group :development, :test do
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
   gem 'slim_lint'
+
+  # 脆弱性チェック
+  gem 'brakeman'
 end
 
 group :development do

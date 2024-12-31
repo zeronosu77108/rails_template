@@ -33,3 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore IntelliJ IDEA files.
+.idea/**/workspace.xml
+.idea/**/tasks.xml
